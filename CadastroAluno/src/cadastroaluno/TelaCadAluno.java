@@ -15,12 +15,13 @@ import javax.swing.table.TableModel;
  * @author Glauber
  */
 public class TelaCadAluno extends javax.swing.JFrame {
+
     private DefaultTableModel tabAlunos;
     private ArrayList<Aluno> ListaAlunos;
-    
+
     public TelaCadAluno() {
         super("Cadastro de alunos");
-        
+
         initComponents();
         ListaAlunos = new ArrayList<>();
         tabAlunos = (DefaultTableModel) jTabela.getModel();
@@ -132,15 +133,20 @@ public class TelaCadAluno extends javax.swing.JFrame {
 
         jTabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "Nome", "CPF", "Matrícula", "Escolaridade"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTabela);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -211,26 +217,36 @@ public class TelaCadAluno extends javax.swing.JFrame {
         tfNome.setText("");
         tfCpf.setText("");
         tfMatricula.setText("");
+        buttonGroup1.clearSelection(); //limpa a seleção que estava nos radiobuttons
+        tfNome.requestFocus(); // retorna o cursor para o local designado, neste caso tfNome
     }//GEN-LAST:event_btSalvarActionPerformed
 
     private void btPreencheActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPreencheActionPerformed
         tabAlunos.getDataVector().clear();
-        for(Aluno alu : ListaAlunos){
-            
-            Object [] Linha = {alu.getNome(),alu.getCpf(),alu.getMatricula(),alu.getEscolaridade()};
+        for (Aluno alu : ListaAlunos) {
+
+            String[] Linha = 
+            {
+                alu.getNome(),
+                alu.getCpf(),
+                alu.getMatricula(),
+                alu.getEscolaridade()
+            };
             tabAlunos.addRow(Linha);
         }
     }//GEN-LAST:event_btPreencheActionPerformed
 
     private void btImpressaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btImpressaoActionPerformed
-        String s;
-        s = "Alunos cadastrados com sucesso!"+
-                "\n Foram cadastrados " +
-                tabAlunos.getRowCount() + " alunos";
-        JOptionPane.showMessageDialog(null, s);
-               
-                
-        
+        String lista ="Nome --- Matrícula \n";
+        for(Aluno alu : ListaAlunos){
+            lista += alu.getNome() + "---" + alu.getMatricula() + "\n";
+        }
+        //s = "Alunos cadastrados com sucesso!"
+        //        + "\n Foram cadastrados "
+        //        + ListaAlunos.size() + " alunos";
+        JOptionPane.showMessageDialog(null, lista, "Lista de alunos",JOptionPane.PLAIN_MESSAGE);
+
+
     }//GEN-LAST:event_btImpressaoActionPerformed
 
     /**

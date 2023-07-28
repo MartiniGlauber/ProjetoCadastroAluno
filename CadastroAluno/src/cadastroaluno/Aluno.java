@@ -18,7 +18,8 @@ public class Aluno {
     private String escolaridade;
 
     public String getNome() {
-        return nome;
+        
+        return nome + "";
     }
 
     public void setNome(String nome) {
